@@ -17,7 +17,7 @@ class Library < Array
         # each_with_index enables book lookup
         self.each_with_index do |book, i|
             if isbn == book.isbn
-                # remove record when found
+                # remove book at specified index
                 self.delete_at(i)
                 puts "Found & removed book with ISBN " + book.isbn + " from " + @name
             end
@@ -43,47 +43,30 @@ class Library < Array
         end
     end
 
-    # def checkin(isbn)
-    #     # search books for isbn, if find it, return true
-    #     # if don't find it: "Error: cannot find book with ISBN 'xyz'
-    # end
+    def checkin(isbn)
+        puts "Checking in book with ISBN " + isbn
+        self.each_with_index do |book, i|
+            if isbn == book.isbn
+                if book.available != "Yes"
+                    book.available = "Yes"
+                else
+                    puts "Book is already checked in/available"
+                end
+            end
+        end
+    end
 
     def checkout(isbn)
-        puts "ISBN passed in: " + isbn
-        puts isbn.to_arr 
-        puts "book.isbn is: " + book.isbn
-        self.each do |book|
-            puts book.isbn.to_arr 
-            puts book.isbn
-                        # until book.isbn.include?(isbn) == true
-
-            # end
-            # if book.isbn.include?(isbn) != true # no match between passed in ISBN and valid ISBNs in Library
-            #     puts "INVALIDError: cannot find book with ISBN '" + book.isbn + "'"
-            # else
-            #     puts "VALID ISBN" 
-            # end
-
-            # until member.isbn.include?(isbn) == true:
-            #     puts "member.isbn is: " + member.isbn
-            # if member.isbn.include?(isbn) != true # invalid ISBN
-            #     puts "Error: cannot find book with ISBN '" + member.isbn + "'"
-            # else # valid ISBN
-            #     puts member.isbn + "is a valid ISBN"
-            # end
-
-            # if (member.isbn).include?(isbn) == true
-
-            # if member.isbn == isbn # if ISBN match
-            #     if member.available = "No"
-            #         puts "Book with ISBN " + member.isbn + "is already checked out. Sorry!"
-            #     else
-            #         member.available = "No" 
-            #         puts "Checked out: " + member.isbn + " " + member.title
-            #     end
-            # else # if no ISBN match
-                # puts "Error: cannot find book with ISBN '" + member.isbn + "'"
-            # end
+        puts "Checking out book with ISBN " + isbn
+        self.each_with_index do |book, i|
+            if isbn == book.isbn
+                if book.available == "No"
+                    puts "Book with ISBN " + book.isbn + " is already checked out. Sorry!"
+                else
+                    book.available = "No"
+                    puts "Book with ISBN " + book.isbn + " is now checked out! Happy reading!"
+                end    
+            end
         end
     end
 end
@@ -120,7 +103,25 @@ library.print_catalog
 # call library.catalog
 library.catalog
 
-# # checkout
-# # library.checkout('9390492572') # => "Checked out: 9390492572  The Sound And The Fury  William Faulkner"
-# # library.checkout('9390492572') # => "Book with ISBN 9390492572 is already checked out. Sorry!"
+# add book1 again
+library.add(book2)
+library.print_catalog
+
+# already checked in
+library.checkin('9390492572')
+library.checkin('0375714499')
+
+# check out available book
+library.checkout('9390492572')
+library.print_catalog
+
+# already checked out
+library.checkout('9390492572')
+library.print_catalog
+
+# check in
+library.checkin('9390492572')
+library.print_catalog
+
 # library.checkout('xyz')
+# library.catalog
