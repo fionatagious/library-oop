@@ -11,24 +11,20 @@ class Library < Array
         puts "Added book, " + book.title + ", to " + @name
     end
 
-    # help
+    # WIP: should return true if found & removed
     def remove(isbn)
         puts "Remove book with ISBN? " + isbn
         # each_with_index enables book lookup
         self.each_with_index do |book, i|
-            puts "Book.isbn: " + book.isbn
-            puts "index: " + i.to_s
             if isbn == book.isbn
                 # remove record when found
                 self.delete_at(i)
                 puts "Found & removed book with ISBN " + book.isbn + " from " + @name
-            else
-                puts "No match"
             end
         end
     end
 
-    # help
+    # WIP: only print object names rather than all contents of objects
     def catalog
         puts "library.catalog"
         ap self.inspect
