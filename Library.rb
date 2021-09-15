@@ -20,6 +20,7 @@ class Library < Array
                 # remove book at specified index
                 self.delete_at(i)
                 puts "Found & removed book with ISBN " + book.isbn + " from " + @name
+                return true
             end
         end
     end
@@ -49,6 +50,7 @@ class Library < Array
             if isbn == book.isbn
                 if book.available != "Yes"
                     book.available = "Yes"
+                    return true
                 else
                     puts "Book is already checked in/available"
                 end
@@ -58,6 +60,7 @@ class Library < Array
 
     def checkout(isbn)
         puts "Checking out book with ISBN " + isbn
+        checked = 0
         self.each_with_index do |book, i|
             if isbn == book.isbn
                 if book.available == "No"
@@ -65,8 +68,13 @@ class Library < Array
                 else
                     book.available = "No"
                     puts "Book with ISBN " + book.isbn + " is now checked out! Happy reading!"
-                end    
+                end
+            else
+                checked += 1
             end
+        end
+        if checked == self.length
+            puts "Error: cannot find book with ISBN " + isbn
         end
     end
 end
@@ -123,5 +131,5 @@ library.print_catalog
 library.checkin('9390492572')
 library.print_catalog
 
-# library.checkout('xyz')
-# library.catalog
+# check out an invalid ISBN
+library.checkout('xyz')
